@@ -8,10 +8,11 @@ from datetime import date
 class Location(models.Model):
     _name = 'estate.location'
     _description = 'Location'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char("numéro")
     locataire_id = fields.Many2one('res.partner', "Locataire")
-    propriete_id = fields.Many2one('estate.proprite', "Propriété")
+    propriete_id = fields.Many2one('estate.propriete', "Propriété")
     date_de_reservation = fields.Date('Date de réservation')
     date_de_debut = fields.Date('Date de début')
     duree_en_annee = fields.Integer("Durée", help="Durée de location en année")
@@ -26,12 +27,20 @@ class Location(models.Model):
         string="Fréquence de paiement",
         default='mensuelle')
     loyer = fields.Integer(compute="_compute_loyer", store=True)
+    etat = fields.Selection([
+        ('brouillon', 'Brouillon'),
+        ('validee', 'Validée'),
+        ('en_cours', 'En cours'),
+        ('terminee', 'Terminée'),
+        ('annulee', 'Annulée')], string="Etat",
+        default='brouillon')
+    etats_des_lieux_ids = fields.One2many('estate.etat.des.lieux', 'location_id', string='Etats des Lieux')
 
     @api.depends('date_de_debut', 'duree_en_annee')
     def _compute_date_de_fin(self):
         for record in self:
             if record.date_de_debut and record.duree_en_annee:
-                record.date_de_fin = record.date_de_debut + relativedelta(years=record.duree_en_annee)
+                record.date_de_fin = record.date_de_debut + relativedelta(years=record.duree_en_annee) - relativedelta(days=1)
             else:
                 record.date_de_fin = date.today()
 

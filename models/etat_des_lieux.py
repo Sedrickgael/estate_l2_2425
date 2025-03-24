@@ -6,6 +6,7 @@ from datetime import datetime
 class EtatDesLieux(models.Model):
     _name = 'estate.etat.des.lieux'
     _description = 'Etat des lieux'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char("Numero")
     type = fields.Selection([
@@ -14,4 +15,5 @@ class EtatDesLieux(models.Model):
         required=True)
     date = fields.Datetime(default=datetime.now())
     responsable_id = fields.Many2one('res.users', string='Responsable', required=True)
+    location_id = fields.Many2one('estate.location', "Location")
 

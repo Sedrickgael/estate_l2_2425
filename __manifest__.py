@@ -18,13 +18,17 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'mail'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'security/ir.model.access.csv',
+        'views/type_de_propriete_views.xml',
+        'views/type_de_piece_views.xml',
+        'views/locataire_views.xml',
+        'views/propriete_views.xml',
+        'views/location_views.xml',
+        'views/estate_menu.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
