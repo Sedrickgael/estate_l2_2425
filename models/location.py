@@ -16,7 +16,7 @@ class Location(models.Model):
     date_de_reservation = fields.Date('Date de réservation')
     date_de_debut = fields.Date('Date de début')
     duree_en_annee = fields.Integer("Durée", help="Durée de location en année")
-    date_de_fin = fields.Date('Date de fin', compte="_compute_date_de_fin", store=True)
+    date_de_fin = fields.Date('Date de fin', compute="_compute_date_de_fin", store=True)
     frequence = fields.Selection([
         ('mensuelle', 'Mensuelle'),
         ('bimestrielle', 'Bimestrielle'),
